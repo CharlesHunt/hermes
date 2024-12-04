@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  hermesdb:
+    container_name: pbHermesDB
+    image: cecid/hermes_db:2.2
+    environment:
+      - MYSQL_ROOT_PASSWORD=corvus
+
+  hermesapp:
+    container_name: pbHermesApp
+    image: cecid/hermes_app:2.2
+    depends_on:
+      - hermesdb
+    links:
+      - hermesdb:db
+    ports:
+      - 8888:8080
+    restart: always    

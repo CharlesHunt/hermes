@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  hermesdb:
+    container_name: cHermesDB
+    image: cecid/hermes_db:2.2
+    environment:
+      - MYSQL_ROOT_PASSWORD=corvus
+
+  hermesapp:
+    container_name: cHermesApp
+    image: h2o/app:1.0
+    build:
+      context: ../../..
+      dockerfile: deploy/app_server/Dockerfile.HRD.001
+    privileged: true
+    depends_on:
+      - hermesdb
+    links:
+      - hermesdb:db
+    ports:
+      - "18888:8080"
